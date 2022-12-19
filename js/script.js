@@ -41,10 +41,13 @@ function loadData() {
             "<p>" + val.snippet + "</p>" + 
             "</li>" );
         });
+        
         $( "<ul/>", {
             "id": "#nytimes-articles",
             html: items.join( "" )
         }).appendTo( $nytHeaderElem );
+    }).fail(function() {
+       $nytHeaderElem.html("New York Times Articles could not be loaded");
     });
 
     $body.append(`<img class="bgimg" src=${streetviewApiPath} />`);
