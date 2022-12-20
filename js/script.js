@@ -1,4 +1,3 @@
-
 function loadData() {
 
     var $body = $('body');
@@ -32,7 +31,6 @@ function loadData() {
 
     $body.append(`<img class="bgimg" src=${streetviewApiPath} />`);
 
-
     // load NY Times articles
     var nyTimesApiKey = "areyoutoo";
     var nyTimesApiPath = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${location}&api-key=${nyTimesApiKey}`;
@@ -40,10 +38,7 @@ function loadData() {
     $.getJSON(nyTimesApiPath, function(data) {
         var items = [];
         $.each(data.response.docs, function( key, val ) {
-            items.push( "<li class='article' id='" + key + "'>" + 
-            "<a href="+ val.web_url + ">" + val.headline.main + "</a>" +
-            "<p>" + val.snippet + "</p>" + 
-            "</li>" );
+            items.push(`<li class="article" id=${key}><a href=${val.web_url}>${val.headline.main}</a><p>${val.snippet}</p></li>`);
         });
         
         $( "<ul/>", {
@@ -54,13 +49,13 @@ function loadData() {
        $nytHeaderElem.html("New York Times Articles could not be loaded");
     });
 
+    // load Wikipedia articles
     var wikipediaApiEndpoint = "https://en.wikipedia.org/w/api.php"
     var wikipediaApiParams = `action=opensearch&search=${city}&limit=10&format=json&origin=*`;
     var wikiRequestTimeout = setTimeout(function() {
         $wikiElem.text("failed to get wikipedia resources");
     }, 8000);
 
-    // load Wikipedia articles
     $.ajax( {
         type: "GET",
         url: `${wikipediaApiEndpoint}?${wikipediaApiParams}`,
